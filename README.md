@@ -1,38 +1,57 @@
-# trip-viz
+# Trip Analysis GIS Visualization
 
-This template should help get you started developing with Vue 3 in Vite.
+A high-performance geospatial web application for visualizing public transit trip updates in real-time. Built with Vue 3, Leaflet, and Turf.js.
 
-## Recommended IDE Setup
+<video controls src="/screenRecord.mp4" width="100%" autoplay loop muted></video>
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+---
 
-## Recommended Browser Setup
+## 🚀 Features
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- **Real-Time Visualization**: Visualizes `tripupdates.json` data on an interactive map.
+- **Dynamic Route Interpolation**: Uses **Turf.js** to slice route geometries and render the exact progress of buses along their paths based on timestamps.
+- **Shapefile Integration**: Automatically loads and parses zipped Shapefiles (Routes, Service Areas, Transit Hubs) using `shpjs`.
+- **Playback Controls**:
+  - Time Slider for scrubbing through history.
+  - Play/Pause animation with adjustable speed.
+  - Real-time clock display.
+- **Performance Optimized**:
+  - **Route Caching**: O(1) lookup for route geometries using a pre-built feature cache.
+  - **Layer Reuse**: Efficiently updates Leaflet layers to maintain 60FPS during playback.
+- **Data Import**: Supports uploading custom JSON trip update files.
 
-## Customize configuration
+## 🛠️ Technology Stack
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- **Frontend Framework**: [Vue.js 3](https://vuejs.org/) (Vite)
+- **Mapping Engine**: [Leaflet](https://leafletjs.com/)
+- **Geospatial Analysis**: [Turf.js](https://turfjs.org/) (Mileage, Slicing, Interpolation)
+- **Data Parsing**: 
+  - `shpjs` (Shapefiles)
+  - `dayjs` (Time formatting)
 
-## Project Setup
+## 📦 Data Sources
 
-```sh
-npm install
-```
+- **GTFS / Trip Updates**: [CapMetro Developer Tools](https://www.capmetro.org/developertools)
+- **Shapefiles**: Derived from CapMetro GIS data (Routes, Service Areas, Hubs).
 
-### Compile and Hot-Reload for Development
+## ⚡ Setup & Running
 
-```sh
-npm run dev
-```
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-### Compile and Minify for Production
+2. **Run Development Server**
+   ```bash
+   npm run dev
+   ```
 
-```sh
-npm run build
-```
+3. **Open Browser**
+   Navigate to `http://localhost:5173`.
+
+## 📂 Project Structure
+
+- `src/App.vue`: Main application logic (State, Playback Loop, Rendering).
+- `src/components/MapBoard.vue`: Leaflet map initialization.
+- `public/shapefiles.zip`: Default geospatial data loaded on startup.
+- `public/screenRecord.mp4`: Demo recording.
