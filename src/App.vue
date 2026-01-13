@@ -136,18 +136,19 @@ const getRandomColor = () => {
   <div class="app-container" @dragover.prevent="dragging = true" @dragleave.prevent="dragging = false"
     @drop="handleDrop">
 
-    <div class="sidebar">
-      <h1>Trip Viz</h1>
-      <div v-if="tripUpdates">
-        <p>Updates: {{ tripUpdates.entity.length }}</p>
-      </div>
-      <div v-else>
-        <p>Drag 'tripupdates.json' here</p>
+    <div class="top-bar">
+      <div class="brand">
+        <h1>Trip Viz</h1>
+        <div class="status-badge" v-if="tripUpdates">
+          {{ tripUpdates.entity.length }} Updates
+        </div>
+        <div class="status-badge empty" v-else>
+          Drag 'tripupdates.json'
+        </div>
       </div>
 
       <div class="layers-panel">
-        <h3>Layers</h3>
-        <p v-if="loadingShapes">Loading Shapefiles...</p>
+        <span v-if="loadingShapes" class="loading-text">Loading Shapefiles...</span>
         <div v-else class="layer-list">
           <div v-for="layer in shapeLayers" :key="layer.id" class="layer-item">
             <label>
@@ -171,55 +172,117 @@ const getRandomColor = () => {
 
 <style scoped>
 .app-container {
-  display: flex;
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
+  position: relative;
   overflow: hidden;
   background: #1e1e1e;
-  color: #eee;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.sidebar {
-  width: 300px;
-  background: #252526;
-  padding: 20px;
-  border-right: 1px solid #333;
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: rgba(30, 30, 30, 0.85);
+  backdrop-filter: blur(5px);
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 20px;
+  color: #eee;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 200px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.status-badge {
+  background: #2ea043;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-badge.empty {
+  background: #444;
+  color: #ccc;
+  border: 1px dashed #777;
 }
 
 .layers-panel {
-  margin-top: 20px;
-  border-top: 1px solid #444;
-  padding-top: 10px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
 .layer-list {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  overflow-y: auto;
-  max-height: 50vh;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 5px;
+  /* space for scrollbar if needed */
+}
+
+/* Scrollbar styling for horizontal list */
+.layer-list::-webkit-scrollbar {
+  height: 4px;
+}
+
+.layer-list::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 2px;
 }
 
 .layer-item label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
   font-size: 0.9em;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  user-select: none;
+}
+
+.layer-item label:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .color-swatch {
   width: 12px;
   height: 12px;
-  border-radius: 2px;
-  border: 1px solid #fff;
+  border-radius: 50%;
   display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .map-view {
-  flex: 1;
-  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .drop-overlay {
