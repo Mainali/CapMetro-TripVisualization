@@ -2,7 +2,7 @@
 
 A high-performance geospatial web application for visualizing public transit trip updates in real-time. Built with Vue 3, Leaflet, and Turf.js.
 
-<video controls src="/screenRecord.mp4" width="100%" autoplay loop muted></video>
+<video controls src="./public/screenRecord.mp4" width="100%" autoplay loop muted></video>
 
 ---
 
